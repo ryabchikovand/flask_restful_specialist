@@ -1,0 +1,10 @@
+.DS_Store
+.idea/
+app_db.py
+app_sqlalchemy.py
+app_temp.py
+db.sqlite
+github.info
+*.db
+test1.py
+venv/
