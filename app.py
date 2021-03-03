@@ -16,8 +16,8 @@ class UnicodeApi(Api):
 
 app = Flask(__name__)
 api = UnicodeApi(app)
-path = os.path.dirname(os.path.abspath(__file__))
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(path, 'test_rel.db')
+base_dir = os.path.dirname(os.path.abspath(__file__))
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL') or 'sqlite:///' + os.path.join(base_dir, 'test.db')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
@@ -106,10 +106,7 @@ class Author(Resource):
 
 
 class Quote(Resource):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
-    def get(self, author_id, id=None):
+    def get(self, author_id=None, id=None):
         """
         ToDo Сделать обработку запроса put для /authors/<int:author_id>/quotes/<int:id>
         :param author_id:
