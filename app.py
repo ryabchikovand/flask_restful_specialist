@@ -17,7 +17,7 @@ class UnicodeApi(Api):
 app = Flask(__name__)
 api = UnicodeApi(app)
 base_dir = os.path.dirname(os.path.abspath(__file__))
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL') or 'sqlite:///' + os.path.join(base_dir, 'test.db')
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL') or 'sqlite:///' + os.path.join(base_dir, 'test_rel.db')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
@@ -43,10 +43,12 @@ class QuoteModel(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     author_id = db.Column(db.Integer, db.ForeignKey(AuthorModel.id))
     quote = db.Column(db.String(255), unique=False)
+    rate = db.Column(db.Integer, default="1")
 
-    def __init__(self, author, quote):
+    def __init__(self, author, quote, rate):
         self.author_id = author.id
         self.quote = quote
+        self.rate = rate
 
     def to_dict(self):
         d = {}
